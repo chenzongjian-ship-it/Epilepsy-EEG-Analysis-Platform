@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EEG Workbench | Seizure Analysis</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">EEG</div>
+          <div>
+            <h1>EEG Workbench</h1>
+            <p>Seizure Analysis</p>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="项目模块导航">
+          <button class="nav-item active" data-target="upload">数据导入</button>
+          <button class="nav-item" data-target="preprocess">预处理</button>
+          <button class="nav-item" data-target="features">特征提取</button>
+          <button class="nav-item" data-target="train">模型训练</button>
+          <button class="nav-item" data-target="evaluate">结果评估</button>
+          <button class="nav-item" data-target="export">导出报告</button>
+        </nav>
+
+        <section class="github-card">
+          <span class="eyebrow">GitHub Pages</span>
+          <h2>仓库展示文件已就绪</h2>
+          <p>把本目录上传到 GitHub 后，README 会显示项目说明、解决方案和平台直达链接。</p>
+          <a id="repoLink" href="./README.md" target="_blank" rel="noreferrer">查看 README</a>
+          <p>启用 Pages 后，访问：<br /><strong>https://用户名.github.io/仓库名/</strong></p>
+        </section>
+      </aside>
+
+      <main class="main-panel">
+        <header class="hero">
+          <div>
+            <span class="slide-tag">作品展示 ①：分析平台原型</span>
+            <h2>癫痫脑电分析平台</h2>
+            <p>串联“数据读取、预处理、特征提取、模型训练、结果评估和报告导出”的完整结果链。</p>
+          </div>
+          <div class="status-pill" id="runStatus">等待 EDF 文件</div>
+        </header>
+
+        <section class="workflow" aria-label="分析流程">
+          <div class="step active" data-step="0"><span>01</span>数据读取</div>
+          <div class="step" data-step="1"><span>02</span>预处理</div>
+          <div class="step" data-step="2"><span>03</span>特征提取</div>
+          <div class="step" data-step="3"><span>04</span>模型训练</div>
+          <div class="step" data-step="4"><span>05</span>结果评估</div>
+          <div class="step" data-step="5"><span>06</span>报告导出</div>
+        </section>
+
+        <section id="upload" class="upload-panel card">
+          <div>
+            <span class="eyebrow">EDF Upload</span>
+            <h3>上传 EDF 文件后开始分析</h3>
+            <p>本原型在前端模拟完整分析链路，用于课程汇报展示；后续可接入 Python 后端与真实 CHB-MIT 数据处理脚本。</p>
+          </div>
+          <label class="drop-zone" for="edfFile">
+            <input id="edfFile" type="file" accept=".edf" />
+            <strong>点击选择 EDF 文件</strong>
+            <span id="fileHint">支持 .edf 脑电文件</span>
+          </label>
+          <button id="analyzeBtn" class="primary-btn" disabled>运行完整分析链</button>
+        </section>
+
+        <section class="dashboard-grid">
+          <article id="preprocess" class="card waveform-card">
+            <div class="card-title">
+              <h3>原始/滤波 EEG 波形</h3>
+              <span>Raw vs Filtered</span>
+            </div>
+            <canvas id="waveCanvas" width="760" height="260"></canvas>
+          </article>
+
+          <article id="train" class="card model-card">
+            <div class="card-title">
+              <h3>模型输出</h3>
+              <span>Classifier</span>
+            </div>
+            <div class="prediction">
+              <div class="badge-danger">Seizure</div>
+              <div class="probability" id="probability">0.96</div>
+              <p>发作概率</p>
+              <div class="threshold">阈值：0.50</div>
+            </div>
+          </article>
+
+          <article class="card chain-card">
+            <div class="card-title">
+              <h3>分析结果链</h3>
+              <span>Pipeline</span>
+            </div>
+            <ol id="resultChain">
+              <li>等待上传 EDF 文件</li>
+            </ol>
+          </article>
+
+          <article class="card spectrogram-card">
+            <div class="card-title">
+              <h3>时频展示</h3>
+              <span>Spectrogram</span>
+            </div>
+            <div id="spectrogram" class="spectrogram"></div>
+          </article>
+
+          <article id="features" class="card feature-card">
+            <div class="card-title">
+              <h3>特征表</h3>
+              <span>Feature Matrix</span>
+            </div>
+            <table>
+              <thead>
+                <tr><th>Feature</th><th>Value</th></tr>
+              </thead>
+              <tbody id="featureRows">
+                <tr><td>RMS</td><td>--</td></tr>
+                <tr><td>θ Power</td><td>--</td></tr>
+                <tr><td>SampEn</td><td>--</td></tr>
+                <tr><td>HFD</td><td>--</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article id="evaluate" class="card report-card">
+            <span id="export" class="anchor-target" aria-hidden="true"></span>
+            <div class="card-title">
+              <h3>识别报告</h3>
+              <span>Metrics</span>
+            </div>
+            <div class="metrics">
+              <div><strong id="f1Score">94.6%</strong><span>F1-score</span></div>
+              <div><strong id="sensitivity">96.1%</strong><span>Sensitivity</span></div>
+            </div>
+            <button id="exportBtn" class="secondary-btn" disabled>导出分析报告</button>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
