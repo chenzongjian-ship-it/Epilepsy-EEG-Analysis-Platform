@@ -8,6 +8,7 @@
 
 ```text
 https://你的GitHub用户名.github.io/你的仓库名/
+https://8000-be6ffc3e13ae8811.monkeycode-ai.online
 ```
 
 上传本项目文件后，在仓库的 `Settings -> Pages` 中选择：
