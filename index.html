@@ -58,7 +58,7 @@
           <div>
             <span class="eyebrow">EDF Upload</span>
             <h3>批量上传 EDF 文件后开始分析</h3>
-            <p>本原型在前端模拟多文件分析链路，用于课程汇报展示；后续可接入 Python 后端与真实 CHB-MIT 数据处理脚本。</p>
+            <p>平台会在浏览器端读取 EDF 二进制内容，解析 header 和采样信号，并输出每个文件不同的特征、概率和时频图。</p>
           </div>
           <label class="drop-zone" for="edfFile">
             <input id="edfFile" type="file" accept=".edf" multiple />
@@ -124,7 +124,7 @@
 
           <article id="features" class="card feature-card">
             <div class="card-title">
-              <h3>特征表</h3>
+              <h3>批量特征表</h3>
               <span>Feature Matrix</span>
             </div>
             <table>
@@ -151,6 +151,23 @@
               <div><strong id="sensitivity">96.1%</strong><span>Sensitivity</span></div>
             </div>
             <button id="exportBtn" class="secondary-btn" disabled>导出分析报告</button>
+          </article>
+
+          <article class="card file-results-card">
+            <div class="card-title">
+              <h3>单文件分析结果</h3>
+              <span>Per-file Results</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>EDF 文件</th><th>通道</th><th>RMS</th><th>θ/β</th><th>概率</th><th>结果</th></tr>
+                </thead>
+                <tbody id="fileResultRows">
+                  <tr><td colspan="6">等待 EDF 文件分析</td></tr>
+                </tbody>
+              </table>
+            </div>
           </article>
         </section>
       </main>
