@@ -7,8 +7,7 @@
 如果本仓库已开启 GitHub Pages，可以通过以下地址访问平台：
 
 ```text
-https://你的GitHub用户名.github.io/你的仓库名/
-https://8000-be6ffc3e13ae8811.monkeycode-ai.online
+https://chenzongjian-ship-it.github.io/Epilepsy-EEG-Analysis-Platform/
 ```
 
 上传本项目文件后，在仓库的 `Settings -> Pages` 中选择：
