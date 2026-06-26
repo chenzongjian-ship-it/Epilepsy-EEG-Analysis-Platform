@@ -40,7 +40,7 @@
           <div>
             <span class="slide-tag">作品展示 ①：分析平台原型</span>
             <h2>癫痫脑电分析平台</h2>
-            <p>串联“数据读取、预处理、特征提取、模型训练、结果评估和报告导出”的完整结果链。</p>
+            <p>支持批量 EDF 文件上传，串联“数据读取、预处理、特征提取、模型训练、结果评估和报告导出”的完整结果链。</p>
           </div>
           <div class="status-pill" id="runStatus">等待 EDF 文件</div>
         </header>
@@ -57,15 +57,23 @@
         <section id="upload" class="upload-panel card">
           <div>
             <span class="eyebrow">EDF Upload</span>
-            <h3>上传 EDF 文件后开始分析</h3>
-            <p>本原型在前端模拟完整分析链路，用于课程汇报展示；后续可接入 Python 后端与真实 CHB-MIT 数据处理脚本。</p>
+            <h3>批量上传 EDF 文件后开始分析</h3>
+            <p>本原型在前端模拟多文件分析链路，用于课程汇报展示；后续可接入 Python 后端与真实 CHB-MIT 数据处理脚本。</p>
           </div>
           <label class="drop-zone" for="edfFile">
-            <input id="edfFile" type="file" accept=".edf" />
-            <strong>点击选择 EDF 文件</strong>
-            <span id="fileHint">支持 .edf 脑电文件</span>
+            <input id="edfFile" type="file" accept=".edf" multiple />
+            <strong>点击选择多个 EDF 文件</strong>
+            <span id="fileHint">支持批量选择 .edf 脑电文件</span>
           </label>
           <button id="analyzeBtn" class="primary-btn" disabled>运行完整分析链</button>
+        </section>
+
+        <section id="fileListPanel" class="file-list-panel card" aria-live="polite">
+          <div class="card-title">
+            <h3>批量文件队列</h3>
+            <span id="batchSummary">等待文件</span>
+          </div>
+          <div id="fileList" class="file-list empty">尚未选择 EDF 文件</div>
         </section>
 
         <section class="dashboard-grid">
@@ -103,9 +111,15 @@
           <article class="card spectrogram-card">
             <div class="card-title">
               <h3>时频展示</h3>
-              <span>Spectrogram</span>
+              <span>Spectrogram · 0-40 Hz</span>
             </div>
-            <div id="spectrogram" class="spectrogram"></div>
+            <canvas id="spectrogramCanvas" width="620" height="300" aria-label="脑电时频热力图"></canvas>
+            <div id="spectrogramReadout" class="spectrogram-readout">悬停查看 Time / Frequency / Power</div>
+            <div class="spectrogram-legend">
+              <span>-30 dB</span>
+              <div class="legend-bar"></div>
+              <span>+10 dB</span>
+            </div>
           </article>
 
           <article id="features" class="card feature-card">
